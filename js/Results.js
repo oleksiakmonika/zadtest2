@@ -1,24 +1,22 @@
 import React, {useEffect, useState} from 'react';
 
-const axios = require('axios');
-
 const Results = props => {
 
-    const [photo, setPhoto] = useState({});
+    const [photo, setPhoto] = useState({result: undefined});
     const [result, setResult] = useState([]);
-
     setPhoto({results: props.match.params.results})
 
-    const Ax = () => {
-        const url = "https://api.unsplash.com/search/photos?page=1&query=" + photo + "&client_id=WCycFH5EcjkYL3ayD5-HnxIqIXfbIP3HnZ33T9EoYzc";
-        axios.get(url).then(response => {
-            setResult(response.data.results)
-        });
-    }
     useEffect(() => {
 
-       Ax()
+        ax()
     }, []);
+
+        const ax = async () => {
+        const response = await fetch("https://api.unsplash.com/search/photos?page=1&query=" + photo + "&client_id=WCycFH5EcjkYL3ayD5-HnxIqIXfbIP3HnZ33T9EoYzc");
+        const data = await response.json();
+        setResult(data.results);
+    };
+
     return (
         <>
             <ul>
@@ -35,4 +33,3 @@ const Results = props => {
 };
 
 export default Results;
-
